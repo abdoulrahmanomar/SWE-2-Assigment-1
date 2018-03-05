@@ -13,7 +13,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 <form method="GET" action="16 Day Daily Forecast.php">
 		<input type="text" name="city" required placeholder="Type City ">
 		 Days (between 1 and 16):
-  		<input type="number" name="Hours" min="1" max="16">
+  		<input type="number" name="Days" min="1" max="16">
 		<input type="submit" value="submit">
 		
 	</form>
@@ -22,19 +22,25 @@ html, body, h1, h2, h3, h4, h5, h6 {
 
 <?php
     
- $Days = 1 ;
 
 if (isset($_GET['city']) && isset($_GET['Days'])) {
        $city = $_GET['city'] ;
-        $Hours = $_GET['Days'];
+        $Days = $_GET['Days'];
 
 }else{  
-     $city = 'Cairo';     
+     $city = 'Cairo';  
+      $Days = 1 ;
+   
 }  
 
 
+	error_reporting(0);
 
 	$data = json_decode(file_get_contents("https://api.weatherbit.io/v2.0/forecast/daily?city=".$city."&key=b6003a89a5454eec81b3c335b1e7a3d0"),true);
+
+	if (empty((array) $data)) {
+    echo "error wrong city name or wrong date.'<br>'.this service allow the weather forecast for only the next 16 days.'<br>'.please try again";
+	}
 	
  
 
